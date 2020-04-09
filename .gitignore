@@ -10,6 +10,7 @@ datasets/
 train/
 test/
 validation/
+*.zip
 
 .ipynb_checkpoints
 */.ipynb_checkpoints/*

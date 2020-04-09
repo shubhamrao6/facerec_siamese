@@ -10,15 +10,17 @@ face_cascade = cv2.CascadeClassifier('./cascades/haarcascade_frontalface_default
 def recognizer(img, img_db):
 
 	img = cv2.resize(img, (46,56))
-
 	n, w, h = img_db.shape
-
 	values = []
 
 	for i in range(n//10):
-	    r = np.random.randint(i*10, i*10+10)
-	    values.append(model.predict([img_db[r].reshape(1,1,56,46)/255, img.reshape(1,1,56,46)/255]))
-	 
+		value = 0
+		r = np.random.randint(i*10, i*10+10, 3)
+		for j in r:
+#            values.append(model.predict([img_db[j].reshape(1,1,56,46)/255, img.reshape(1,1,56,46)/255]))
+			value += model.predict([img_db[j].reshape(1,1,56,46)/255, img.reshape(1,1,56,46)/255])
+		values.append(value/4)
+        
 	return np.argmin(values)
 
 def detect(gray, frame):
