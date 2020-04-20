@@ -21,7 +21,7 @@ def recognizer(img, img_db):
 			value += model.predict([img_db[j].reshape(1,1,56,46)/255, img.reshape(1,1,56,46)/255])
 		values.append(value/4)
         
-	return np.argmin(values)
+	return np.argmin(values), np.min(values)
 
 def detect(gray, frame):
     faces = face_cascade.detectMultiScale(gray, 1.3, 5)
@@ -30,10 +30,12 @@ def detect(gray, frame):
         cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
         roi_gray = gray[y:y+h, x:x+w]
         roi_color = frame[y:y+h, x:x+w]
-        
-        if recognizer(roi_gray, img_db) == 0:
+
+        if recognizer(roi_gray, img_db)[1] > 0.2:
+            cv2.putText(frame,'unknown',(x,y),cv2.FONT_HERSHEY_COMPLEX,.5,(0,0,0),1)    
+        elif recognizer(roi_gray, img_db)[0] == 0:
             cv2.putText(frame,'Shubham',(x,y),cv2.FONT_HERSHEY_COMPLEX,.5,(0,0,0),1)
-        elif recognizer(roi_gray, img_db) == 1:
+        elif recognizer(roi_gray, img_db)[0] == 1:
             cv2.putText(frame,'Jhalak',(x,y),cv2.FONT_HERSHEY_COMPLEX,.5,(0,0,0),1)
 #         eyes = eye_cascade.detectMultiScale(roi_gray, 1.1, 3)
 #         for (ex, ey, ew, eh) in eyes:
