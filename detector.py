@@ -31,7 +31,7 @@ def detect(gray, frame):
         roi_gray = gray[y:y+h, x:x+w]
         roi_color = frame[y:y+h, x:x+w]
 
-        if recognizer(roi_gray, img_db)[1] > 0.2:
+        if recognizer(roi_gray, img_db)[1] > 0.5:
             cv2.putText(frame,'unknown',(x,y),cv2.FONT_HERSHEY_COMPLEX,.5,(0,0,0),1)    
         elif recognizer(roi_gray, img_db)[0] == 0:
             cv2.putText(frame,'Shubham',(x,y),cv2.FONT_HERSHEY_COMPLEX,.5,(0,0,0),1)
